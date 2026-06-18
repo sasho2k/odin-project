@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/sasho2k/odin-project/issues"
   },
-  "homepage": "https://github.com/sasho2k/odin-project#readme"
+  "homepage": "https://github.com/sasho2k/odin-project#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
 }
