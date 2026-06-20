@@ -4,11 +4,6 @@ function getComputerChoice() {
     return choices[randomIndex];
 }
 
-function getUserChoice() {
-    const choice = prompt("Enter your choice (rock, paper, or scissors):");
-    return choice.toLowerCase();
-}
-
 function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
 
@@ -37,16 +32,33 @@ function playRound(humanChoice, computerChoice) {
     return `Computer wins! ${computerChoice} beats ${humanChoice}.`;
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        console.log(`Score - You: ${humanScore}, Computer: ${computerScore}`);
-        let humanChoice = getUserChoice();
-        let computerChoice = getComputerChoice();
-        console.log(playRound(humanChoice, computerChoice, humanScore, computerScore));
-    }
-}
-
 let humanScore = 0, computerScore = 0;
-playGame(humanScore, computerScore);
 
-console.log(`Final score - You: ${humanScore}, Computer: ${computerScore}`);
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        const humanChoice = button.id;
+        const computerChoice = getComputerChoice();
+        const result = playRound(humanChoice, computerChoice);
+
+        document.getElementById("result").textContent = result;
+        document.getElementById("player-choice").textContent = `Player: ${humanChoice}`;
+        document.getElementById("computer-choice").textContent = `Computer: ${computerChoice}`;
+        document.getElementById("score").textContent = `Score - You: ${humanScore} Computer: ${computerScore}`;
+
+        if (humanScore === 5) {
+            alert("Congratulations! You won the game!");
+            humanScore = 0;
+            computerScore = 0;
+        } else if (computerScore === 5) {
+            alert("Game over! The computer won.");
+            humanScore = 0;
+            computerScore = 0;
+        }
+        
+        document.getElementById("player-choice").textContent = `Player: ${humanChoice}`;
+        document.getElementById("computer-choice").textContent = `Computer: ${computerChoice}`;
+        document.getElementById("score").textContent = `Score - You: ${humanScore} | Computer: ${computerScore}`;
+    });
+});
