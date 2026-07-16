@@ -1,7 +1,6 @@
 // Init variables.
 // The operation is split into 3 different parts, the first number, the second number, and the operator.
-// Display result is how we can display the result after a multioperation and be able to clear the display when the user types.
-let firstNumber = null, secondNumber = null, operator = "", displayResult = 0;
+let firstNumber = null, secondNumber = null, operator = "";
 
 // Calculation functions.
 function add(a, b) {
@@ -43,25 +42,39 @@ function getText() {
 
 // Operator logic.
 function operatorLogic(operation) {
+    // If the operation is not EQUALS, set the global operator.
+    if (operation !== "=") {
+        operator = operation;
+    }
+    // If the operation is EQUALS, 
+    else {
+        if (secondNumber === null) {
+            secondNumber = getText();
+        }
+        setText(operate(Number(firstNumber), Number(secondNumber), operator));
+        return;
+    }
+
     // If both numbers are empty, assume the first number is being filled.
     if (firstNumber === null && secondNumber === null) {
         firstNumber = getText();
+        setText("");
     }
     // If second number is the only empty number, assume that number is being filled.
     else if (firstNumber !== null && secondNumber === null) {
         secondNumber = getText();
+        setText("");
     }
     // If both numbers are NOT empty, operate using operator saved.
-    else if (firstNumber !== null && secondNumber === null) {
-        firstNumber = operate(firstNumber, secondNumber, operation);
+    else if (firstNumber !== null && secondNumber !== null) {
+        firstNumber = operate(Number(firstNumber), Number(secondNumber), operator);
         
         // Set second number to null since the first number becomes the result of both numbers.
         secondNumber = null;
-
+    
         // Set text to result.
         setText(firstNumber);
-        displayResult = 1;
-    } 
+    }
 }
 
 // Button press switch statement that holds base logic.
@@ -77,16 +90,11 @@ function pressButton(value) {
         case "-":
         case "x":
         case "/":
-            operatorLogic(value);
-            break;
         case "=":
+            operatorLogic(value);
             break;
         default:
             // Clicking a digit fills in the box with the current text plus the digit.
-            if (displayResult === 1) {
-                setText("");
-                displayResult = 0;
-            }
             setText(getText() + value);
             break;
     }
